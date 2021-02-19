@@ -33,6 +33,7 @@ git remote set-url --push upstream no_push
 # Workflow 
 
 You can create your own environment on a local branch or your own fork, then PR to this repo once the environment is good enough.
+Make sure you **dont't** PR to `openai/gym`, but to `RobotLocomotion/gym`! 
 
 # How to Add a New Environment
 
