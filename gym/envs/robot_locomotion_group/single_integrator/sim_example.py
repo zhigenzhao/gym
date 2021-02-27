@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import cProfile
 
 """
 Minimal example for pile simulation. 

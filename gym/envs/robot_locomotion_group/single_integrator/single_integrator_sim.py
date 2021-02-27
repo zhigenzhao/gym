@@ -36,6 +36,7 @@ class SingleIntegratorSim(pyglet.window.Window):
         self.velocity_scale = 20
 
         self.space = pymunk.Space()
+        self.time_now = 0.0
 
         self.image = None
         self.draw_options = pymunk.pyglet_util.DrawOptions()
@@ -81,12 +82,12 @@ class SingleIntegratorSim(pyglet.window.Window):
         """
         Create a single bar by defining its shape, mass, etc.
         """
-        body = pymunk.Body(1e7, pymunk.inf)
+        body = pymunk.Body(1e2, pymunk.inf)
         draw_position = self.generate_random_position(self.width, self.height, self.radius)
         body.position = Vec2d(draw_position[0], draw_position[1])
         shape = pymunk.Circle(body, self.radius)
-        shape.elasticity = 0.1
-        shape.friction = 0.6
+        shape.elasticity = 1.0
+        shape.friction = 1.0
         shape.color = (255, 255, 255, 255)
         return body, shape
 
@@ -121,16 +122,22 @@ class SingleIntegratorSim(pyglet.window.Window):
         uy = int(self.velocity_scale * u[1])
 
         # This updates the position and prevents the ball from going out of screen.
-        self.body.position = np.clip(self.body.position + np.array([ux, uy]),
-                                     [self.radius, self.radius],
-                                     [self.width - self.radius, self.height - self.radius])
+        self.body.position += np.array([ux, uy])
+
+        done = False
+        if (self.body.position < np.array([self.radius, self.radius])).any():
+            done = True 
+        if (self.body.position > np.array([self.width - self.radius, self.height - self.radius])).any():
+            done = True
         self.space.step(0.01)
 
         # Wait 1 second in sim to slow down moving pieces, and render.
         #self.wait(1.0)
         self.render()
 
-        return None
+        self.time_now = time.time()
+
+        return done
 
     """
     2.2 Methods related to rendering

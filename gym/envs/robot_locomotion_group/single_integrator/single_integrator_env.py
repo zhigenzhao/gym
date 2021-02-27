@@ -26,10 +26,11 @@ class SingleIntegratorEnv(gym.Env):
     def step(self, action):
         current_image = image_transform(self.sim.get_current_image())
         reward = lyapunov(current_image)
-        self.sim.update(action)
+        done = self.sim.update(action)
         next_image = image_transform(self.sim.get_current_image())
         # We'll return the actual image here instead of the normalized one.
-        return 255.0 * next_image, reward, False, {}
+
+        return 255.0 * next_image, reward, done, {}
 
     def reset(self):
         self.sim.refresh()
