@@ -15,6 +15,12 @@ register(
     max_episode_steps=200,
 )
 
+register(
+    id="SingleIntegrator-v0",
+    entry_point='gym.envs.robot_locomotion_group:SingleIntegratorEnv',
+    max_episode_steps=200,
+)
+
 # Algorithmic
 # ----------------------------------------
 
