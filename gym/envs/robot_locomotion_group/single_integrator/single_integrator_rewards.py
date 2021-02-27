@@ -39,11 +39,9 @@ def lyapunov(image_normalized):
     output: (np.float), shape ()
     """
     V_measure = lyapunov_measure()
-    plt.figure()
-    plt.imshow(image_normalized)
-    plt.show()
 
     # element-wise multiplication.
     V = np.sum(np.multiply(image_normalized, V_measure))
-    # image_sum = np.sum(image_normalized)
-    return V 
+    image_sum = np.sum(image_normalized)
+    V_normalized = V / image_sum
+    return V_normalized
