@@ -45,6 +45,7 @@ To isolate our environments from OpenAI's original environments, let's keep the 
 2. Register your new environment class under `envs/robot_locomotion_group/__init__.py`.
 3. Register your new environment name under `envs/__init__.py`. You will see a section dedicated to Robot Locomotion Grouop. 
 4. Now you can use your environment from any location with `gym.make("my_awesome_new_environment-v0")`
+5. [IMPORTANT] To test your environment, you can deploy a random agent by `python3 examples/agents/random_agent.py ENV_NAME`
 
 # Dependencies 
 - `pyglet`
