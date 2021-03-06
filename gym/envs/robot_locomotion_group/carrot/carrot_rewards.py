@@ -26,7 +26,7 @@ def lyapunov_measure():
     measure = np.zeros((32, 32))
     for i in range(32):
         for j in range(32):
-            radius = np.linalg.norm(np.array([i - 15.5, j - 15.5]), ord=2) ** 2.0
+            radius = np.linalg.norm(np.array([i - 15.5, j - 15.5]), ord=2) / 16.
             measure[i,j] = np.maximum(radius - pixel_radius, 0)
     return measure
 
@@ -39,5 +39,5 @@ def lyapunov(image_normalized):
     V_measure = lyapunov_measure()
     # element-wise multiplication.
     V = np.sum(np.multiply(image_normalized, V_measure))
-    # image_sum = np.sum(image_normalized)
-    return V 
+    image_sum = np.sum(image_normalized)
+    return V / image_sum
