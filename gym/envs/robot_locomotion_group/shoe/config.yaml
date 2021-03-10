@@ -1,0 +1,64 @@
+rope:
+  num_segments: 19
+  segment_length: [0.05, 0.05, 0.05, 0.05, 0.05,
+                   0.05, 0.05, 0.05, 0.05, 0.05,
+                   0.05, 0.05, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+  link_mass: [0.02, 0.02, 0.02, 0.02, 0.02,
+              0.02, 0.02, 0.02, 0.02, 0.02,
+              0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02]
+  rope_radius: 0.01
+  joint_limit: 1            # Unknown effect
+  joint_damping: 0.001      # Unknown effect
+  joint_friction: 0         # Unknown effect
+  spring_stiffness: 0       # Unknown effect
+  rope_height: 3.0          # Gets overwritten - no effect
+  rope_x: 0                 # Gets overwritten - no effect
+  rope_y: 0.5               # Gets overwritten - no effect
+env:
+  mbp_dt: 0.0005
+  step_dt: 0.1              # Simulation timestep
+  arms:
+    left:
+      pos: [0.0, -.25, .5]
+      rpy: [0.14, 0, 0]
+      grip: 0.01
+      arm_type: "floating"
+    right:
+      pos: [0.0, 0.25, .5]
+      rpy: [3, 0, 0]
+      grip: 0.01
+      arm_type: "floating"
+  ropes:
+    rope_1:
+      pos: [0.0, -0.06, 0.6]
+      rpy: [1.570796, 1.570796, 3.1415]
+    rope_2:
+      pos: [0.0, 0.06, 0.6]
+      rpy: [1.570796, 1.570796, 0]
+  target_realtime_rate: 0.0       # Rate to run the simulation. 0.0 means as fast as possible
+  parameterization: "closed"      # TODO: check this
+  velocity_limit_factor: 0.1      # Only applicable for IIWA
+  penetration_allowance: 0.001
+  stiction_tolerance: 0.001
+  rgbd_sensors:
+    enabled: False
+    sensor_list:
+      camera_0: # 45 degree view
+        width: 640
+        height: 480
+        fov_y: 0.7051130178057091  # 40.4 degrees, from d415 specs https://www.intelrealsense.com/stereo-depth-modules-and-processors/
+        z_near: 0.01 # should probably just leave these so it's perfect
+        z_far: 10 # if they are -1 then use defaults
+        pos: [1.5        , 1.5        , 1.5]
+        rpy: [ 1.04719, 3.14, -0.707]
+      camera_1: # 45 degree view
+        width: 640
+        height: 480
+        fov_y: 0.7051130178057091  # 40.4 degrees, from d415 specs https://www.intelrealsense.com/stereo-depth-modules-and-processors/
+        z_near: 0.01 # should probably just leave these so it's perfect
+        z_far: 10 # if they are -1 then use defaults
+        pos: [-1.5        , -1.5        , 1.5]
+        rpy: [ -2.09439, 0, -0.707]
+  visualization: True
+  meshcat: False
+  early_termination: False     # TODO: implement this

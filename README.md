@@ -12,7 +12,7 @@ Some of these environments will be exported to a pip package once they are matur
 - Carrot pushing environment. `gym.make("Carrot-v0")`
 - Pendulum environment with pixel output. `gym.make("PendulumPixel-v0")`
 - Planar single integrator with pixel output. `gym.make("SingleIntegrator-v0")`
-
+- Shoe. `gym.make("Shoe-v0")` or `gym.make("Shoe-v0", config)`
 # Setup 
 
 This fork can be setup in the following way.
