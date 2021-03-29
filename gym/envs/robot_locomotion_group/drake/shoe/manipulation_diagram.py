@@ -41,13 +41,13 @@ from pydrake.systems.primitives import (Adder, Demultiplexer, MatrixGain,
                                         StateInterpolatorWithDiscreteDerivative)
 from pydrake.systems.sensors import RgbdSensor
 
-from gym.envs.robot_locomotion_group.shoe.vis_object import VisObject
+from gym.envs.robot_locomotion_group.drake.shoe.vis_object import VisObject
 
-from gym.envs.robot_locomotion_group.shoe.rope_utils import (
+from gym.envs.robot_locomotion_group.drake.shoe.rope_utils import (
     add_ground,
     add_rope
 )
-from gym.envs.robot_locomotion_group.shoe.paths import (
+from gym.envs.robot_locomotion_group.drake.shoe.paths import (
     iiwa_7_no_collision_path,
     iiwa14_no_collision_path,
     iiwa_7_no_collision_path,
@@ -61,9 +61,9 @@ from gym.envs.robot_locomotion_group.shoe.paths import (
     franka_combined_path
 )
 
-from gym.envs.robot_locomotion_group.shoe.drake_utils import get_label_db
-from gym.envs.robot_locomotion_group.shoe.camera_utils import camera_transform_from_dict
-from gym.envs.robot_locomotion_group.shoe.transform_utils import transform_from_dict
+from gym.envs.robot_locomotion_group.drake.shoe.drake_utils import get_label_db
+from gym.envs.robot_locomotion_group.drake.shoe.camera_utils import camera_transform_from_dict
+from gym.envs.robot_locomotion_group.drake.shoe.transform_utils import transform_from_dict
 
 class ManipulationDiagram(Diagram):
     def __init__(self, config):

@@ -13,6 +13,7 @@ Some of these environments will be exported to a pip package once they are matur
 - Pendulum environment with pixel output. `gym.make("PendulumPixel-v0")`
 - Planar single integrator with pixel output. `gym.make("SingleIntegrator-v0")`
 - Shoe. `gym.make("Shoe-v0")` or `gym.make("Shoe-v0", config)`
+
 # Setup 
 
 This fork can be setup in the following way.
@@ -38,15 +39,7 @@ Make sure you **dont't** PR to `openai/gym`, but to `RobotLocomotion/gym`!
 
 # How to Add a New Environment
 
-See OpenAI's instructions on [creating a new environment](https://github.com/openai/gym/blob/master/docs/creating-environments.md). 
-
-To isolate our environments from OpenAI's original environments, let's keep the group environments in `gym/envs/robot_locomotion_group`. Generally, the procedure will involve the following:
-
-1. Create a folder under `envs/robot_locomotion_group` with the new environment name, and develop your environment there that contains your own `gym.Env` class.
-2. Register your new environment class under `envs/robot_locomotion_group/__init__.py`.
-3. Register your new environment name under `envs/__init__.py`. You will see a section dedicated to Robot Locomotion Grouop. 
-4. Now you can use your environment from any location with `gym.make("my_awesome_new_environment-v0")`
-5. [IMPORTANT] To test your environment, you can deploy a random agent by `python3 examples/agents/random_agent.py ENV_NAME`
+To isolate our environments from OpenAI's original environments, let's keep the group environments in `gym/envs/robot_locomotion_group`. You will find detailed instructions in this [folder](https://github.com/RobotLocomotion/gym/tree/master/gym/envs/robot_locomotion_group).
 
 # Dependencies 
 - `pyglet`

@@ -5,7 +5,7 @@ import os
 
 from pydrake.multibody.parsing import Parser
 
-from gym.envs.robot_locomotion_group.shoe.generate_sdf import SDFGenerator
+from gym.envs.robot_locomotion_group.drake.shoe.generate_sdf import SDFGenerator
 
 
 def generate_rope_sdf_from_config(rope_config, rope_name):

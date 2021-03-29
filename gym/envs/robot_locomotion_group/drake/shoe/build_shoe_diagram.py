@@ -26,16 +26,16 @@ from pydrake.systems.primitives import (
     ConstantVectorSource
 )
 
-from gym.envs.robot_locomotion_group.shoe.floating_hand_controllers import (
+from gym.envs.robot_locomotion_group.drake.shoe.floating_hand_controllers import (
     SpatialHandController,
     SetpointController,
     set_targets
 )
-from gym.envs.robot_locomotion_group.shoe.rope_utils import (
+from gym.envs.robot_locomotion_group.drake.shoe.rope_utils import (
     post_finalize_rope_settings,
     initialize_rope_zero
 )
-from gym.envs.robot_locomotion_group.shoe.manipulation_diagram import ManipulationDiagram
+from gym.envs.robot_locomotion_group.drake.shoe.manipulation_diagram import ManipulationDiagram
 
 
 def build_shoe_diagram(config):

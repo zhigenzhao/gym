@@ -92,13 +92,13 @@ class CarrotSim(pyglet.window.Window):
         Create a single onion piece by defining its shape, mass, etc.
         """
         points = self.generate_random_poly((0,0), radius)
-        inertia = pymunk.moment_for_poly(100.0, points, (0, 0))
+        inertia = pymunk.moment_for_poly(100.0, points.tolist(), (0, 0))
         body = pymunk.Body(100.0, inertia)
         # TODO(terry-suh): is this a reasonable distribution?
         body.position = Vec2d(random.randint(100, 400), random.randint(100, 400))
         #body.position = Vec2d(random.randint(0, 500), random.randint(0, 500))
         
-        shape = pymunk.Poly(body, points)
+        shape = pymunk.Poly(body, points.tolist())
         shape.friction = 0.6
         shape.color = (255, 255, 255, 255)
         return body, shape 
@@ -136,7 +136,7 @@ class CarrotSim(pyglet.window.Window):
         """
         Create a single bar by defining its shape, mass, etc.
         """
-        body = pymunk.Body(1e7, pymunk.inf)
+        body = pymunk.Body(1e7, float('inf'))
         theta = theta - np.pi/2 # pusher is perpendicular to push direction.
         v = np.array([self.bar_width / 2.0 * np.cos(theta),\
                       self.bar_width / 2.0 * np.sin(theta)])
@@ -144,7 +144,7 @@ class CarrotSim(pyglet.window.Window):
         start = np.array(position) + v + np.array([self.width * 0.5, self.height * 0.5])
         end = np.array(position) - v + np.array([self.width * 0.5, self.height * 0.5])
 
-        shape = pymunk.Segment(body, start, end, 5)
+        shape = pymunk.Segment(body, start.tolist(), end.tolist(), 5)
         shape.elasticity = 0.1
         shape.friction = 0.6
         shape.color = (0, 255, 0, 255)
@@ -201,7 +201,7 @@ class CarrotSim(pyglet.window.Window):
             # user specifies dt of rendering.
             if (self.RENDER_EVERY_TIMESTEP): 
                 self.render()
-            self.pusher_body.velocity = self.velocity
+            self.pusher_body.velocity = self.velocity.tolist()
             self.space.step(step_dt)
             self.global_time += step_dt 
 

@@ -3,7 +3,7 @@ import numpy as np
 import os
 import yaml
 
-from gym.envs.robot_locomotion_group.shoe.open_loop import (
+from gym.envs.robot_locomotion_group.drake.shoe.open_loop import (
     get_instructions,
     instructions_to_x
 )
