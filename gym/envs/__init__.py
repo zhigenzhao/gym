@@ -21,6 +21,13 @@ register(
     max_episode_steps=200,
 )
 
+register(
+    id="Shoe-v0",
+    entry_point = 'gym.envs.robot_locomotion_group:ShoeEnv',
+    max_episode_steps=700,
+    kwargs={'config': None}
+)
+
 # Algorithmic
 # ----------------------------------------
 
