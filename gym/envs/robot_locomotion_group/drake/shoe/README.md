@@ -22,5 +22,5 @@ Choose one of the following
 Run `python3 examples/agents/random_agent.py Shoe-v0` to see random actions applied to the gripper
 
 ### Shoe tie
-Run `python3 gym/envs/robot_locomotion_group/shoe/test_gym.py` to see a full shoe tie
+Run `python3 gym/envs/robot_locomotion_group/drake/shoe/test_gym.py` to see a full shoe tie
 ![2021-03-29-1617040582_screenshot_736x420](https://user-images.githubusercontent.com/13571695/112881825-28df0580-909a-11eb-8733-e8ba96b4f7f6.jpg)
