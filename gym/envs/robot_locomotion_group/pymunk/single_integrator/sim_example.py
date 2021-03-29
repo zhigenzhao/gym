@@ -6,7 +6,7 @@ import cProfile
 Minimal example for pile simulation. 
 """
 
-from gym.envs.robot_locomotion_group.single_integrator.single_integrator_sim import SingleIntegratorSim
+from gym.envs.robot_locomotion_group.pymunk.single_integrator.single_integrator_sim import SingleIntegratorSim
 
 sim = SingleIntegratorSim() # initialize sim.
 count = 0

@@ -82,7 +82,7 @@ class SingleIntegratorSim(pyglet.window.Window):
         """
         Create a single bar by defining its shape, mass, etc.
         """
-        body = pymunk.Body(1e2, pymunk.inf)
+        body = pymunk.Body(1e2, float('inf'))
         draw_position = self.generate_random_position(self.width, self.height, self.radius)
         body.position = Vec2d(draw_position[0], draw_position[1])
         shape = pymunk.Circle(body, self.radius)

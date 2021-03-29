@@ -3,18 +3,18 @@ import gym
 from gym import error, spaces, utils 
 from gym.utils import seeding
 
-from gym.envs.robot_locomotion_group.single_integrator.single_integrator_sim import SingleIntegratorSim
-from gym.envs.robot_locomotion_group.single_integrator.single_integrator_rewards import lyapunov, image_transform
+from gym.envs.robot_locomotion_group.pymunk.carrot.carrot_sim import CarrotSim
+from gym.envs.robot_locomotion_group.pymunk.carrot.carrot_rewards import lyapunov, image_transform
 
-class SingleIntegratorEnv(gym.Env):
+class CarrotEnv(gym.Env):
     metadata = {'render:modes': ['human']}
 
     def __init__(self):
-        self.sim = SingleIntegratorSim()
+        self.sim = CarrotSim()
 
         self.action_space = spaces.Box(
-            low=-1.0,
-            high=1.0, shape=(2,),
+            low=-0.4,
+            high=0.4, shape=(4,),
             dtype=np.float32
         )
         self.observation_space = spaces.Box(
@@ -26,11 +26,10 @@ class SingleIntegratorEnv(gym.Env):
     def step(self, action):
         current_image = image_transform(self.sim.get_current_image())
         reward = lyapunov(current_image)
-        done = self.sim.update(action)
+        self.sim.update(action)
         next_image = image_transform(self.sim.get_current_image())
         # We'll return the actual image here instead of the normalized one.
-
-        return 255.0 * next_image, reward, done, {}
+        return 255.0 * next_image, reward, False, {}
 
     def reset(self):
         self.sim.refresh()

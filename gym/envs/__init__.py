@@ -5,25 +5,25 @@ from gym.envs.registration import registry, register, make, spec
 
 register(
     id='Carrot-v0',
-    entry_point='gym.envs.robot_locomotion_group:CarrotEnv',
+    entry_point='gym.envs.robot_locomotion_group.pymunk:CarrotEnv',
     max_episode_steps=30,
 )
 
 register(
     id="PendulumPixel-v0",
-    entry_point='gym.envs.robot_locomotion_group:PendulumPixelEnv',
+    entry_point='gym.envs.robot_locomotion_group.pymunk:PendulumPixelEnv',
     max_episode_steps=200,
 )
 
 register(
     id="SingleIntegrator-v0",
-    entry_point='gym.envs.robot_locomotion_group:SingleIntegratorEnv',
+    entry_point='gym.envs.robot_locomotion_group.pymunk:SingleIntegratorEnv',
     max_episode_steps=200,
 )
 
 register(
     id="Shoe-v0",
-    entry_point = 'gym.envs.robot_locomotion_group:ShoeEnv',
+    entry_point = 'gym.envs.robot_locomotion_group.drake:ShoeEnv',
     max_episode_steps=700,
     kwargs={'config': None}
 )

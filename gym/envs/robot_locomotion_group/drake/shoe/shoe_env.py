@@ -6,17 +6,17 @@ import yaml
 
 import gym
 from gym import error, spaces, utils
-from gym.envs.robot_locomotion_group.shoe.build_shoe_diagram import (
+from gym.envs.robot_locomotion_group.drake.shoe.build_shoe_diagram import (
     reset_simulator_from_config,
     build_shoe_diagram
 )
-from gym.envs.robot_locomotion_group.shoe.floating_hand_controllers import (
+from gym.envs.robot_locomotion_group.drake.shoe.floating_hand_controllers import (
     modify_targets
 )
-from gym.envs.robot_locomotion_group.shoe.state_utils import (
+from gym.envs.robot_locomotion_group.drake.shoe.state_utils import (
     get_gripper_velocities
 )
-from gym.envs.robot_locomotion_group.shoe.open_loop import (
+from gym.envs.robot_locomotion_group.drake.shoe.open_loop import (
     x_to_open_loop_instructions
 )
 class ShoeEnv(gym.Env):
