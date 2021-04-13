@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-from gym.envs.robot_locomotion_group.drake.shoe.transform_utils import transform_from_dict
+from gym.envs.robot_locomotion_group.drake.transform_utils import transform_from_dict
 
 def camera_transform_from_dict(data):
     return transform_from_dict(data)
