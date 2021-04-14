@@ -9,9 +9,12 @@ Some of these environments will be exported to a pip package once they are matur
 
 # List of New Environments
 
+Pymunk Environments:
 - Carrot pushing environment. `gym.make("Carrot-v0")`
 - Pendulum environment with pixel output. `gym.make("PendulumPixel-v0")`
 - Planar single integrator with pixel output. `gym.make("SingleIntegrator-v0")`
+Drake Environments:
+- Pusher slider. `gym.make("PusherSlider-v0")` or `gym.make("PusherSlider-v0, config")`
 - Shoe. `gym.make("Shoe-v0")` or `gym.make("Shoe-v0", config)`
 
 # Setup 
