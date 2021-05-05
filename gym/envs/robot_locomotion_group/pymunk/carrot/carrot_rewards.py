@@ -26,9 +26,10 @@ def lyapunov_measure():
     measure = np.zeros((32, 32))
     for i in range(32):
         for j in range(32):
-            radius = np.linalg.norm(np.array([i - 15.5, j - 15.5]), ord=2) / 16.
+            radius = np.linalg.norm(np.array([i - 15.5, j - 15.5]), ord=2) 
             measure[i,j] = np.maximum(radius - pixel_radius, 0)
-    return measure
+    # A number here is chosen to approximately normalize the reward in between [0,1]
+    return measure / 8.
 
 def lyapunov(image_normalized):
     """
