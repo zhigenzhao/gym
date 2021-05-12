@@ -19,11 +19,7 @@ import PIL
 
 import matplotlib.pyplot as plt
 
-"""Main Simulation class for Ropes.
-
-The attributes and methods are quite straightforward, see carrot_sim.py
-for basic usage.
-"""
+"""Main Simulation class for Ropes."""
 class RopeSim(pyglet.window.Window):
     def __init__(self):
         pyglet.window.Window.__init__(self, vsync=False)
@@ -47,13 +43,6 @@ class RopeSim(pyglet.window.Window):
 
         self.create_world()
 
-        # User flags.
-        # If this flag is enabled, then the rendering will be done at every
-        # simulation timestep. This makes the sim much slower, but is better
-        # for visualizing the pusher continuously.
-        self.RENDER_EVERY_TIMESTEP = False
-
-
     """
     1. Methods for Generating and Removing Sim Elements
     """
@@ -67,7 +56,7 @@ class RopeSim(pyglet.window.Window):
         self.has_been_touched = False
         self.collision_pairs = []
 
-        self.space.gravity = Vec2d(0,-1000) # planar setting 
+        self.space.gravity = Vec2d(0,-1000) # Gravity acts downwards.
         self.space.damping = 0.0001 # quasi-static. low value is higher damping.
         self.space.iterations = 5 # TODO(terry-suh): re-check. what does this do? 
         self.space.color = pygame.color.THECOLORS["black"]       
@@ -170,7 +159,6 @@ class RopeSim(pyglet.window.Window):
 
         self.collision_pairs = []
 
-        # This updates the position and prevents the ball from going out of screen.
         self.body.position += (ux, uy)
 
         done = False

@@ -32,7 +32,7 @@ class RopeEnv(gym.Env):
         return self.sim.collision_pairs
 
     def render(self, mode='human'):
-        # Return full resolution image for debugging / rendering.
+        # TODO(terry-suh): Return full resolution image for debugging / rendering.
         return None 
 
     def close(self):
