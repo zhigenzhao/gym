@@ -16,6 +16,7 @@ Pymunk Environments:
 Drake Environments:
 - Pusher slider. `gym.make("PusherSlider-v0")` or `gym.make("PusherSlider-v0, config")`
 - Shoe. `gym.make("Shoe-v0")` or `gym.make("Shoe-v0", config)`
+- Planar rope environment with gravity. `gym.make("Rope2d-v0")`
 
 # Setup 
 
