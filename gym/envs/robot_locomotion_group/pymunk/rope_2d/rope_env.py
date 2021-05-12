@@ -21,7 +21,7 @@ class RopeEnv(gym.Env):
 
     def step(self, action):
         done = self.sim.update(action)
-        obs = self.sim.collision_pairs
+        obs = (self.sim.collision_pairs, np.array(self.sim.body.position))
 
         # NOTE: the sim will detect the initial touch on the rope. On the next touch,
         # done will be set to True.
@@ -29,7 +29,7 @@ class RopeEnv(gym.Env):
 
     def reset(self):
         self.sim.refresh()
-        return self.sim.collision_pairs
+        return (self.sim.collision_pairs, self.sim.body.position)
 
     def render(self, mode='human'):
         # TODO(terry-suh): Return full resolution image for debugging / rendering.
