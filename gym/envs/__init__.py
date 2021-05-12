@@ -35,6 +35,12 @@ register(
     kwargs={'config': None}
 )
 
+register(
+    id="Rope2d-v0",
+    entry_point='gym.envs.robot_locomotion_group.pymunk:RopeEnv',
+    max_episode_steps=200,
+)
+
 # Algorithmic
 # ----------------------------------------
 
