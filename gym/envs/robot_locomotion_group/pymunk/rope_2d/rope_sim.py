@@ -81,11 +81,8 @@ class RopeSim(pyglet.window.Window):
     """
 
     def generate_random_position(self, width, height, radius):
-        pos_x = random.randint(radius, width - radius)
-        pos_y = random.randint(radius, height - radius)
-        
-        pos_x = 200
-        pos_y = 200
+        pos_x = np.random.randint(100, 200)
+        pos_y = np.random.randint(50, 100)
         return np.array([pos_x, pos_y])
 
     def create_circle(self):
@@ -163,7 +160,7 @@ class RopeSim(pyglet.window.Window):
 
         done = False
         
-        for x in range(10):
+        for x in range(100):
             self.body.position = self.body.position
             self.body.force = (0, self.body.mass * 1000) # offset gravity
             self.space.step(1.0 / 100.0)

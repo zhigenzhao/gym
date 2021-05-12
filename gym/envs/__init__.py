@@ -38,7 +38,7 @@ register(
 register(
     id="Rope2d-v0",
     entry_point='gym.envs.robot_locomotion_group.pymunk:RopeEnv',
-    max_episode_steps=200,
+    max_episode_steps=1000,
 )
 
 # Algorithmic
