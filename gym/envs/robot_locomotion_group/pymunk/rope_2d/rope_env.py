@@ -12,8 +12,8 @@ class RopeEnv(gym.Env):
         self.sim = RopeSim()
 
         self.action_space = spaces.Box(
-            low=-5.0,
-            high=5.0, shape=(4,),
+            low=-2.0,
+            high=2.0, shape=(2,),
             dtype=np.float32
         )
 

@@ -154,8 +154,8 @@ class RopeSim(pyglet.window.Window):
         Once given a control action, run the simulation forward and return.
         """
         # Parse into integer coordinates
-        ux = int(self.velocity_scale * u[0])
-        uy = int(self.velocity_scale * u[1])
+        ux = (self.velocity_scale * u[0])
+        uy = (self.velocity_scale * u[1])
 
         self.collision_pairs = []
 

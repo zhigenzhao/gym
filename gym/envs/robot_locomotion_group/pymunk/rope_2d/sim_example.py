@@ -12,7 +12,7 @@ count = 0
 
 while(True):
     # compute random actions.
-    u = [1.2, 1.2]
+    u = [0.5, 0.5]
     sim.update(u)
 
     # save screenshot
