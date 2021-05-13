@@ -20,8 +20,10 @@ class RopeEnv(gym.Env):
         # Observation space ommitted due to length variability.
 
     def step(self, action):
-        done = self.sim.update(action)
-        obs = (self.sim.collision_pairs, np.array(self.sim.body.position))
+        # Zero-order hold?
+        for _ in range(10):
+            done = self.sim.update(action)
+            obs = (self.sim.collision_pairs, np.array(self.sim.body.position))
 
         # NOTE: the sim will detect the initial touch on the rope. On the next touch,
         # done will be set to True.

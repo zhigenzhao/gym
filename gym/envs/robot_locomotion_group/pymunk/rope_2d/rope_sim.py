@@ -86,7 +86,7 @@ class RopeSim(pyglet.window.Window):
         return np.array([pos_x, pos_y])
 
     def create_circle(self):
-        body = pymunk.Body()
+        body = pymunk.Body(body_type = pymunk.Body.KINEMATIC)
         draw_position = self.generate_random_position(self.width, self.height, self.radius)
         body.position = Vec2d(draw_position[0], draw_position[1])
         shape = pymunk.Circle(body, self.radius)
@@ -162,7 +162,8 @@ class RopeSim(pyglet.window.Window):
         
         for x in range(100):
             self.body.position = self.body.position
-            self.body.force = (0, self.body.mass * 1000) # offset gravity
+            self.body.angle = 0.0
+            #self.body.force = (0, self.body.mass * 1000) # offset gravity
             self.space.step(1.0 / 100.0)
         self.render()            
 
