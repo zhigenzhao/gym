@@ -2,3 +2,4 @@ from gym.envs.robot_locomotion_group.pymunk.carrot.carrot_env import CarrotEnv
 from gym.envs.robot_locomotion_group.pymunk.pendulum.pendulum_pixel import PendulumPixelEnv
 from gym.envs.robot_locomotion_group.pymunk.single_integrator.single_integrator_env import SingleIntegratorEnv
 from gym.envs.robot_locomotion_group.pymunk.rope_2d.rope_env import RopeEnv
+from gym.envs.robot_locomotion_group.pymunk.bubble_2d.bubble_env import BubbleEnv

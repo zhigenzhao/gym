@@ -41,6 +41,12 @@ register(
     max_episode_steps=1000,
 )
 
+register(
+    id="Bubble2d-v0",
+    entry_point='gym.envs.robot_locomotion_group.pymunk:BubbleEnv',
+    max_episode_steps=1000
+)
+
 # Algorithmic
 # ----------------------------------------
 
