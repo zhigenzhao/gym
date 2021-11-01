@@ -153,3 +153,16 @@ class HopperDrakeEnv(gym.Env):
 
     def seed(self, seed=None):
         pass
+
+
+def main():
+    env = HopperDrakeEnv()
+    torques = np.zeros(3)
+    T = 1000
+
+    for _ in range(T):
+        env.step()
+
+
+if __name__=="__main__":
+    main()

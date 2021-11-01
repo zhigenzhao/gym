@@ -1,5 +1,13 @@
 from gym.envs.registration import registry, register, make, spec
 
+# my envs
+register(
+    id="Hopper",
+    entry_point="gym.envs.drake:HopperDrakeEnv",
+    max_episode_steps=1000,
+)
+
+
 # Robot Locomotion Group
 # ----------------------------------------
 
