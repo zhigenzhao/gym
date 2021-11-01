@@ -66,6 +66,7 @@ class HopperDrakeEnv(gym.Env):
                 raise ValueError("Unknown visualization:", config["visualization"])
 
         self._sim_diagram.finalize()
+        mbp.set_penetration_allowance(1e-3)
 
         builder = DiagramBuilder()
         builder.AddSystem(self._sim_diagram)
@@ -86,6 +87,7 @@ class HopperDrakeEnv(gym.Env):
         )
     
     def reset(self):
+        # TODO: reset to a random initial state
         assert self._sim_diagram.is_finalized()
 
         context = self._simulator.get_mutable_context()
@@ -94,9 +96,7 @@ class HopperDrakeEnv(gym.Env):
         context.SetTime(0.)
 
         q0_hopper = [0., 1.5, 0.72273432, -1.44546857, 2.29353058]
-        # q0_hopper = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        print(self._sim_diagram.mbp.num_positions(self._hopper_id))
-        print(self._sim_diagram.mbp.num_velocities(self._hopper_id))
+
         self._sim_diagram.mbp.SetPositions(mbp_context, self._hopper_id, q0_hopper)
         self._sim_diagram.mbp.SetVelocities(mbp_context, self._hopper_id, 
             np.zeros(self._sim_diagram.mbp.num_velocities(self._hopper_id)))
@@ -119,6 +119,9 @@ class HopperDrakeEnv(gym.Env):
             mbp_context, self._hopper_id
         ))
         obs["velocity"] = np.copy(self._sim_diagram.mbp.GetVelocities(
+            mbp_context, self._hopper_id
+        ))
+        obs["qv"] = np.copy(self._sim_diagram.mbp.GetPositionsAndVelocities(
             mbp_context, self._hopper_id
         ))
 
