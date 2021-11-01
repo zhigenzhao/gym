@@ -31,7 +31,7 @@ class HopperDrakeEnv(gym.Env):
 
         # add ground
         green = np.array([.5, 1., .5, 1.])
-        mbp.RegisterVisualGrometry(
+        mbp.RegisterVisualGeometry(
             mbp.world_body(), RigidTransform(), HalfSpace(), "ground_vis", green
         )
         static_friction = 1.0
@@ -43,10 +43,10 @@ class HopperDrakeEnv(gym.Env):
         # add hopper
         parser = Parser(mbp, self._sim_diagram.sg)
         hopper_urdf = os.path.join(os.path.dirname(__file__), "urdf", "footedhopper.urdf")
-
-        self._hopper_id = parser.AddModelFromFile(
-            FindResourceOrThrow(hopper_urdf)
-        )
+        
+        self._hopper_id = parser.AddModelFromFile(hopper_urdf)
+        hopper_base_frame = mbp.GetBodyByName("xtrans", self._hopper_id).body_frame()
+        mbp.WeldFrames(mbp.world_frame(), hopper_base_frame, RigidTransform())
 
         def hopper_port_func():
             actuation_input_port = mbp.get_actuation_input_port(self._hopper_id)
@@ -73,9 +73,9 @@ class HopperDrakeEnv(gym.Env):
         self._diagram = builder.Build()
 
         self._hopper_actuation_input_port = self._diagram.get_input_port(0)
-        self._simulator = Simulator(self._sim_diagram)
+        self._simulator = Simulator(self._diagram)
 
-        self.reset()
+        # self.reset()
 
         self.action_space = spaces.Box(
             low=-float("inf"), high=float("inf"), shape=(3,), dtype=np.float32 
@@ -90,13 +90,16 @@ class HopperDrakeEnv(gym.Env):
 
         context = self._simulator.get_mutable_context()
         mbp_context = self._diagram.GetMutableSubsystemContext(
-            self._sim_diagram.mbp, context
-        )
+            self._sim_diagram.mbp, context)
         context.SetTime(0.)
 
         q0_hopper = [0., 1.5, 0.72273432, -1.44546857, 2.29353058]
+        # q0_hopper = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        print(self._sim_diagram.mbp.num_positions(self._hopper_id))
+        print(self._sim_diagram.mbp.num_velocities(self._hopper_id))
         self._sim_diagram.mbp.SetPositions(mbp_context, self._hopper_id, q0_hopper)
-        self._sim_diagram.mbp.SetVelocities(mbp_context, self._hopper_id, np.zeros(5))
+        self._sim_diagram.mbp.SetVelocities(mbp_context, self._hopper_id, 
+            np.zeros(self._sim_diagram.mbp.num_velocities(self._hopper_id)))
         self._hopper_actuation_input_port.FixValue(context, np.zeros(3))
 
         self._simulator.Initialize()
@@ -154,15 +157,6 @@ class HopperDrakeEnv(gym.Env):
     def seed(self, seed=None):
         pass
 
-
-def main():
-    env = HopperDrakeEnv()
-    torques = np.zeros(3)
-    T = 1000
-
-    for _ in range(T):
-        env.step()
-
-
-if __name__=="__main__":
-    main()
+    @property
+    def step_dt(self):
+        return self._step_dt

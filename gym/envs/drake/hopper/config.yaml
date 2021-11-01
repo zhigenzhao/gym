@@ -1,0 +1,4 @@
+model_name: "hopper"
+mbp_dt: 0.001 # dt for multibody plant
+step_dt: 0.03 # 3s for 101 ts
+visualization: "drake_viz" # drake visualizer

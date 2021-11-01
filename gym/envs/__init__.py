@@ -2,7 +2,7 @@ from gym.envs.registration import registry, register, make, spec
 
 # my envs
 register(
-    id="Hopper",
+    id="Hopper-v0",
     entry_point="gym.envs.drake:HopperDrakeEnv",
     max_episode_steps=1000,
 )
