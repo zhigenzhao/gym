@@ -5,6 +5,7 @@ register(
     id="Hopper-v0",
     entry_point="gym.envs.drake:HopperDrakeEnv",
     max_episode_steps=1000,
+    kwargs={"config": None}
 )
 
 

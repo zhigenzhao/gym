@@ -14,6 +14,8 @@ from pydrake.geometry import HalfSpace
 from pydrake.multibody.plant import CoulombFriction
 from pydrake.systems.analysis import Simulator
 
+from .utils import HopperObservationLogger
+
 class HopperDrakeEnv(gym.Env):
     metadata = {"render.modes": []}
 
@@ -51,8 +53,11 @@ class HopperDrakeEnv(gym.Env):
         def hopper_port_func():
             actuation_input_port = mbp.get_actuation_input_port(self._hopper_id)
             state_output_port = mbp.get_state_output_port(self._hopper_id)
-            builder.ExportInput(actuation_input_port, "hopper_actuation_port")
-            builder.ExportOutput(state_output_port, "hopper_state_port")
+            contact_output_port = mbp.get_contact_results_output_port()
+            builder.ExportInput(actuation_input_port, "hopper_actuation_input_port")
+            builder.ExportOutput(state_output_port, "hopper_state_output_port")
+            builder.ExportOutput(contact_output_port, "hopper_contact_output_port")
+            
         self._sim_diagram.finalize_functions.append(hopper_port_func)
 
         if "visualization" in config:
@@ -70,7 +75,7 @@ class HopperDrakeEnv(gym.Env):
 
         builder = DiagramBuilder()
         builder.AddSystem(self._sim_diagram)
-        builder.ExportInput(self._sim_diagram.GetInputPort("hopper_actuation_port"))
+        builder.ExportInput(self._sim_diagram.GetInputPort("hopper_actuation_input_port"))
         self._diagram = builder.Build()
 
         self._hopper_actuation_input_port = self._diagram.get_input_port(0)
@@ -85,6 +90,9 @@ class HopperDrakeEnv(gym.Env):
         self.observation_space = spaces.Box(
             low=-float("inf"), high=float("inf"), shape=(10,), dtype=np.float32
         )
+
+        self.obs = {}
+        self.logger = HopperObservationLogger(self)
     
     def reset(self):
         # TODO: reset to a random initial state
@@ -103,6 +111,9 @@ class HopperDrakeEnv(gym.Env):
         self._hopper_actuation_input_port.FixValue(context, np.zeros(3))
 
         self._simulator.Initialize()
+        self.obs = {}
+        self.logger = HopperObservationLogger(self)
+        
         return self.get_observation()
 
     def get_observation(self, context=None):
@@ -113,19 +124,41 @@ class HopperDrakeEnv(gym.Env):
         mbp_context = self._sim_diagram.GetMutableSubsystemContext(
             self._sim_diagram.mbp, context)
         
-        obs = {}
-        obs["time"] = context.get_time()
-        obs["position"] = np.copy(self._sim_diagram.mbp.GetPositions(
+        if "control" not in self.obs:
+            self.obs["control"] = None
+        for key in self.obs.keys():
+            if key != "control":
+                self.obs[key] = None
+
+        self.obs["time"] = context.get_time()
+        self.obs["position"] = np.copy(self._sim_diagram.mbp.GetPositions(
             mbp_context, self._hopper_id
         ))
-        obs["velocity"] = np.copy(self._sim_diagram.mbp.GetVelocities(
+        self.obs["velocity"] = np.copy(self._sim_diagram.mbp.GetVelocities(
             mbp_context, self._hopper_id
         ))
-        obs["qv"] = np.copy(self._sim_diagram.mbp.GetPositionsAndVelocities(
+        self.obs["qv"] = np.copy(self._sim_diagram.mbp.GetPositionsAndVelocities(
             mbp_context, self._hopper_id
         ))
 
-        return obs
+        # get contact forces
+        contact_output_port = self._sim_diagram.mbp.get_contact_results_output_port()
+        contact_results = contact_output_port.Eval(mbp_context)
+        
+        contact_forces = {}
+        contact_penetration = {}
+        for i in range(contact_results.num_point_pair_contacts()):
+            contact_info = contact_results.point_pair_contact_info(i)
+            point_pair = contact_info.point_pair()
+            key = (point_pair.id_A.get_value(), point_pair.id_B.get_value())
+
+            contact_forces[key] = contact_info.contact_force()
+            contact_penetration[key] = point_pair.depth
+        
+        self.obs["contact_forces"] = contact_forces
+        self.obs["contact_penetration"] = contact_penetration
+
+        return self.obs
 
     def step(self, action):
         assert self._sim_diagram.is_finalized()
@@ -141,7 +174,10 @@ class HopperDrakeEnv(gym.Env):
 
         # simulate and take observation
         self._simulator.AdvanceTo(t_adv)
+        
+        self.obs["control"] = action
         obs = self.get_observation()
+        self.logger.add_observation(obs)
 
         reward = 0.
         done = False

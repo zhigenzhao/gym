@@ -9,6 +9,9 @@ zero_torque = np.zeros(3)
 N = 200
 
 input("start?")
-for _ in range(N):
-    env.step(zero_torque)
-    time.sleep(0.03)
+for i in range(N):
+    obs, reward, done, info = env.step(zero_torque)
+    time.sleep(env.step_dt)
+    if i%100==0:
+        print(obs["contact_forces"])
+        print(obs["contact_penetration"])
