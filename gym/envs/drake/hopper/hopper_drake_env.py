@@ -71,7 +71,7 @@ class HopperDrakeEnv(gym.Env):
                 raise ValueError("Unknown visualization:", config["visualization"])
 
         self._sim_diagram.finalize()
-        mbp.set_penetration_allowance(1e-3)
+        mbp.set_penetration_allowance(config["penetration_allowance"])
 
         builder = DiagramBuilder()
         builder.AddSystem(self._sim_diagram)
@@ -113,7 +113,7 @@ class HopperDrakeEnv(gym.Env):
         self._simulator.Initialize()
         self.obs = {}
         self.logger = HopperObservationLogger(self)
-        
+
         return self.get_observation()
 
     def get_observation(self, context=None):

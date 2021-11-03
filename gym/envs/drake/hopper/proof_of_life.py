@@ -15,3 +15,4 @@ for i in range(N):
     if i%100==0:
         print(obs["contact_forces"])
         print(obs["contact_penetration"])
+env.logger.plot_contact()

@@ -1,6 +1,11 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
+HOPPER_CONTACT_PAIR = {
+    (20, 44): "Toe",
+    (20, 41): "Heel"
+}
+
 class HopperObservationLogger():
     def __init__(self, env):
         self._env = env
@@ -65,24 +70,39 @@ class HopperObservationLogger():
 
     ################### plotting #############################
     def plot_contact(self):
+        contact_pair_names = []
         for key in self._contact_forces:
+            if key in HOPPER_CONTACT_PAIR:
+                contact_pair_names.append(HOPPER_CONTACT_PAIR[key])
+            else:
+                contact_pair_names.append("Contact pair " + str(key))
+
             forces = np.array(self._contact_forces[key])
-            plt.figure()
+            plt.figure(1)
             plt.plot(self._time[1:], forces[:, 0])
-            plt.xlabel("Time (s)")
-            plt.ylabel("Force X (N)")
-            plt.title("Contact pair " + str(key))
 
-            plt.figure()
+            plt.figure(2)
             plt.plot(self._time[1:], forces[:, 2])
-            plt.xlabel("Time (s)")
-            plt.ylabel("Force Z (N)")
-            plt.title("Contact pair " + str(key))
-
-            plt.figure()
+            
+            plt.figure(3)
             plt.plot(self._time[1:], self._contact_penetration[key])
-            plt.xlabel("Time (s)")
-            plt.ylabel("Penetration Depth (m)")
-            plt.title("Contact pair " + str(key))
+        
+        plt.figure(1)
+        plt.legend(contact_pair_names)
+        plt.xlabel("Time (s)")
+        plt.ylabel("Force X (N)")
+        plt.title("X Friction")
+
+        plt.figure(2)
+        plt.legend(contact_pair_names)
+        plt.xlabel("Time (s)")
+        plt.ylabel("Force Z (N)")
+        plt.title("Z Normal Force")
+
+        plt.figure(3)
+        plt.legend(contact_pair_names)
+        plt.xlabel("Time (s)")
+        plt.ylabel("Depth (m)")
+        plt.title("Penetration Depth")
         
         plt.show()
