@@ -36,7 +36,7 @@ class HopperDrakeEnv(gym.Env):
         mbp.RegisterVisualGeometry(
             mbp.world_body(), RigidTransform(), HalfSpace(), "ground_vis", green
         )
-        static_friction = 1.0
+        static_friction = config["friction"]
         ground_friction = CoulombFriction(static_friction, static_friction)
         mbp.RegisterCollisionGeometry(
             mbp.world_body(), RigidTransform(), HalfSpace(), "ground_collision", ground_friction
@@ -72,6 +72,7 @@ class HopperDrakeEnv(gym.Env):
 
         self._sim_diagram.finalize()
         mbp.set_penetration_allowance(config["penetration_allowance"])
+        mbp.set_stiction_tolerance(config["stiction_tolerance"])
 
         builder = DiagramBuilder()
         builder.AddSystem(self._sim_diagram)
