@@ -14,7 +14,7 @@ from pydrake.geometry import HalfSpace
 from pydrake.multibody.plant import CoulombFriction
 from pydrake.systems.analysis import Simulator
 
-from .utils import HopperObservationLogger
+from .utils import HopperObservationLogger, hopper_running_cost
 
 class HopperDrakeEnv(gym.Env):
     metadata = {"render.modes": []}
@@ -95,7 +95,7 @@ class HopperDrakeEnv(gym.Env):
         self.obs = {}
         self.logger = HopperObservationLogger(self)
     
-    def reset(self):
+    def reset(self, x0=0.):
         # TODO: reset to a random initial state
         assert self._sim_diagram.is_finalized()
 
@@ -104,7 +104,7 @@ class HopperDrakeEnv(gym.Env):
             self._sim_diagram.mbp, context)
         context.SetTime(0.)
 
-        q0_hopper = [0., 1.5, 0.72273432, -1.44546857, 2.29353058]
+        q0_hopper = [x0, 1.5, 0.72273432, -1.44546857, 2.29353058]
 
         self._sim_diagram.mbp.SetPositions(mbp_context, self._hopper_id, q0_hopper)
         self._sim_diagram.mbp.SetVelocities(mbp_context, self._hopper_id, 
@@ -178,9 +178,10 @@ class HopperDrakeEnv(gym.Env):
         
         self.obs["control"] = action
         obs = self.get_observation()
+        obs["running_cost"] = hopper_running_cost(obs["qv"], obs["control"])
         self.logger.add_observation(obs)
 
-        reward = 0.
+        reward = obs["running_cost"]
         done = False
         info = {}
 

@@ -6,6 +6,22 @@ HOPPER_CONTACT_PAIR = {
     (20, 41): "Heel"
 }
 
+############################## hopper functions ############################
+def hopper_running_cost(x, u):
+    R = 0.01*np.ones(3)
+    Q = np.array([1, 10, 10, 100, 100, 1, 1, 1, 1, 1])
+    R = R/2
+    Q = Q/2
+    xf = np.array([4, 1.5, 0.72273432, -1.44546857, 2.29353058, 0, 0, 0, 0, 0])
+    # state reg cost
+    state_cost = np.dot((x - xf)**2, Q)
+    # control reg cost
+    control_weight = np.dot(u**2, R)
+
+    return state_cost + control_weight
+
+######################### clases ###########################################
+
 class HopperObservationLogger():
     def __init__(self, env):
         self._env = env
@@ -14,6 +30,7 @@ class HopperObservationLogger():
         self._position = []
         self._velocity = []
         self._control = []
+        self._running_cost = []
         self._contact_forces = {}
         self._contact_penetration = {}
 
@@ -48,6 +65,10 @@ class HopperObservationLogger():
         self._position.append(obs["position"])
         self._velocity.append(obs["velocity"])
         self._control.append(obs["control"])
+        if "running_cost" in obs:
+            self._running_cost.append(obs["running_cost"])
+        else:
+            self._running_cost.append(0)
         
         for key in self._contact_forces:
             if key not in obs["contact_forces"]:
@@ -105,4 +126,11 @@ class HopperObservationLogger():
         plt.ylabel("Depth (m)")
         plt.title("Penetration Depth")
         
+        plt.show()
+
+    def plot_cum_cost(self):
+        plt.figure()
+        plt.xlabel("Time(s)")
+        plt.ylabel("Cumulative Cost")
+        plt.plot(self._time[:], np.cumsum(self._running_cost))
         plt.show()

@@ -15,4 +15,6 @@ for i in range(N):
     if i%100==0:
         print(obs["contact_forces"])
         print(obs["contact_penetration"])
+        print(obs["running_cost"])
 env.logger.plot_contact()
+env.logger.plot_cum_cost()
