@@ -59,6 +59,10 @@ class HopperObservationLogger():
     def contact_penetration(self):
         return self._contact_penetration
     
+    @property
+    def running_cost(self):
+        return self._running_cost
+    
     ###################### update ############################
     def add_observation(self, obs):
         self._time.append(obs["time"])
@@ -129,8 +133,32 @@ class HopperObservationLogger():
         plt.show()
 
     def plot_cum_cost(self):
-        plt.figure()
-        plt.xlabel("Time(s)")
+        plt.figure(4)
+        plt.xlabel("Time (s)")
         plt.ylabel("Cumulative Cost")
         plt.plot(self._time[:], np.cumsum(self._running_cost))
+        plt.show()
+
+    def plot_torque(self):
+        plt.figure(5)
+        plt.xlabel("Time (s)")
+        plt.ylabel("Control Torque (N$\cdot$m)")
+        controls = np.array(self._control)
+        plt.plot(self._time[:], controls[:, 0])
+        plt.plot(self._time[:], controls[:, 1])
+        plt.plot(self._time[:], controls[:, 2])
+
+        plt.legend(["Hip", "Knee", "Ankle"])
+        plt.show()
+
+    def plot_joints(self):
+        plt.figure(6)
+        plt.xlabel("Time (s)")
+        plt.ylabel("Joint Angles (rad)")
+        states = np.array(self._position)
+        plt.plot(self._time[:], states[:, 2])
+        plt.plot(self._time[:], states[:, 3])
+        plt.plot(self._time[:], states[:, 4])
+
+        plt.legend(["Hip", "Knee", "Ankle"])
         plt.show()
