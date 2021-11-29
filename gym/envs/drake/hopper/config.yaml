@@ -1,6 +1,6 @@
 model_name: "hopper"
-mbp_dt: 0.00005 # dt for multibody plant
-step_dt: 0.005 # 3s for 101 ts
+mbp_dt: 0.03 # dt for multibody plant
+step_dt: 0.03 # 3s for 101 ts
 visualization: "drake_viz" # drake visualizer
 friction: 0.5
 penetration_allowance: 0.001

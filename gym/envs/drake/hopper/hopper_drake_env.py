@@ -12,7 +12,7 @@ from pydrake.common import FindResourceOrThrow
 from pydrake.math import RigidTransform
 from pydrake.geometry import HalfSpace
 from pydrake.multibody.plant import CoulombFriction
-from pydrake.systems.analysis import Simulator
+from pydrake.systems.analysis import Simulator, ResetIntegratorFromFlags, GetIntegrationSchemes
 
 from .utils import HopperObservationLogger, hopper_running_cost
 
@@ -27,6 +27,11 @@ class HopperDrakeEnv(gym.Env):
         self._config = config
         self._step_dt = config["step_dt"]
         self._model_name = config["model_name"]
+        if "integrator" in config and config["integrator"] in GetIntegrationSchemes():
+            self._integration_scheme = config["integrator"]
+        else:
+            self._integration_scheme = "implicit_euler"
+
         self._sim_diagram = DrakeSimDiagram(config)
         mbp = self._sim_diagram.mbp
         builder = self._sim_diagram.builder
