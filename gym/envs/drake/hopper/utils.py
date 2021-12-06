@@ -9,7 +9,8 @@ HOPPER_CONTACT_PAIR = {
 ############################## hopper functions ############################
 def hopper_running_cost(x, u):
     R = 0.01*np.ones(3)
-    Q = np.array([1, 10, 10, 100, 100, 1, 1, 1, 1, 1])
+    # Q = np.array([1, 10, 10, 100, 100, 1, 1, 1, 1, 1])
+    Q = np.array([100, 100, 1, 1, 1, 1, 1, 1, 1, 1])
     R = R/2
     Q = Q/2
     xf = np.array([4, 1.5, 0.72273432, -1.44546857, 2.29353058, 0, 0, 0, 0, 0])
@@ -18,7 +19,7 @@ def hopper_running_cost(x, u):
     # control reg cost
     control_weight = np.dot(u**2, R)
 
-    return state_cost + control_weight
+    return state_cost
 
 ######################### clases ###########################################
 

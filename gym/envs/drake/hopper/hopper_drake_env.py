@@ -30,6 +30,7 @@ class HopperDrakeEnv(gym.Env):
         if "integrator" in config and config["integrator"] in GetIntegrationSchemes():
             self._integration_scheme = config["integrator"]
         else:
+            print("Using default integration scheme.")
             self._integration_scheme = "implicit_euler"
 
         self._sim_diagram = DrakeSimDiagram(config)
